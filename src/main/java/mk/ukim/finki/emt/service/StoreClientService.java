@@ -1,7 +1,9 @@
 package mk.ukim.finki.emt.service;
 
+import com.sun.corba.se.pept.transport.ContactInfo;
 import mk.ukim.finki.emt.model.jpa.*;
 import mk.ukim.finki.emt.model.search.BookSearchCriteria;
+import org.hibernate.annotations.Check;
 
 import java.util.List;
 
@@ -11,33 +13,62 @@ import java.util.List;
  */
 public interface StoreClientService {
 
+  Cart takeCart();
+
+  List<Book> findBooks(BookSearchCriteria criteria);
+
   List<Category> getTopLevelCategories();
 
   List<Category> getSubCategories(Long categoryId);
 
-  List<Book> findBook(BookSearchCriteria criteria);
+  List<Book> getBooksInCategory(Long categoryId);
 
-  List<Book> findBookInCategory(Long categoryId);
+  BookDetails getBookDetails(Long bookId);
 
   void addToCart(Long cartId, Long bookId, int quantity);
 
   void removeFromCart(Long cartId, Long bookId, int quantity);
 
-  void clearExpiredCart(Long cartId);
+  Checkout startCheckout(Long cartId);
 
-  Checkout checkout(Long cartId);
 
-  void provideShippingInfo(Long checkoutId, String city, String postalCode, String address);
+  DeliveryInfo provideDeliveryInfo(
+    Long checkoutId,
+    String country,
+    String city,
+    String postalCode,
+    String address);
 
-  void provideContactInfo(Long checkoutId, String phone);
+  ContactInfo provideContactInfo(
+    Long checkoutId,
+    String firstName,
+    String lastName,
+    String phone
+  );
 
-  Invoice pay(Long checkoutId, String cardNumber, String owner, String cardType, String cvs, String cardExpirationDate);
+  void provideDeliveryAndContactInfoFromCustomerCard(
+    Long checkoutId,
+    Long customerCardId
+  );
 
-  void revokeCheckout(Long checkoutId);
+  void provideCoupon(
+    Long checkoutId,
+    String coupon
+  );
 
-  void confirmDelivery(Long deliveryId);
+  Invoice providePaymentInfo(
+    String cardNumber,
+    String cardHolder,
+    String cardType,
+    String cvs,
+    String expiryDate
+  );
 
-  User registerUser(String username, String password, String email);
 
+  void confirmDelivery(
+    Long invoiceId,
+    Integer rating,
+    String comment
+  );
 
 }

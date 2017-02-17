@@ -7,4 +7,6 @@ package mk.ukim.finki.emt.model.jpa;
 public class Category {
 
   public String name;
+
+  public Category parent;
 }

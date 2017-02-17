@@ -1,4 +1,4 @@
-package mk.ukim.finki.emt.exceptions;
+package mk.ukim.finki.emt.model.exceptions;
 
 
 /**
