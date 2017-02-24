@@ -3,7 +3,7 @@ package mk.ukim.finki.emt.service;
 
 import mk.ukim.finki.emt.model.exceptions.CategoryInUseException;
 import mk.ukim.finki.emt.model.jpa.Book;
-import mk.ukim.finki.emt.model.jpa.Deliverable;
+import mk.ukim.finki.emt.model.jpa.DeliveryPackage;
 
 /**
  * @author Riste Stojanov
@@ -72,7 +72,7 @@ public interface StoreManagementService {
     Long invoiceId
   );
 
-  Deliverable markPayed(
+  DeliveryPackage markPayed(
     Long invoiceId
   );
 

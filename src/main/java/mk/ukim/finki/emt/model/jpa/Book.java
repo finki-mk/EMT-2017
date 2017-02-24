@@ -1,7 +1,10 @@
 package mk.ukim.finki.emt.model.jpa;
 
-import javax.annotation.Generated;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import java.util.List;
 
 
 /**
@@ -9,13 +12,19 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "books")
-public class Book {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  public Long id;
+public class Book extends BaseEntity {
 
   public String name;
 
   public Double price;
+
+  public String isbn;
+
+  public Integer quantityInStock;
+
+  @ManyToOne
+  public Category category;
+
+  @ManyToMany
+  public List<Author> authors;
 }

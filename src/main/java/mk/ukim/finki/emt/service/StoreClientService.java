@@ -57,6 +57,7 @@ public interface StoreClientService {
   );
 
   Invoice providePaymentInfo(
+    Long checkoutId,
     String cardNumber,
     String cardHolder,
     String cardType,
