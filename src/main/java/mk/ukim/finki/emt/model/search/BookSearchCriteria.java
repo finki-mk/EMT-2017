@@ -6,7 +6,7 @@ package mk.ukim.finki.emt.model.search;
  */
 public class BookSearchCriteria {
 
-  String partOfName;
+  String text;
 
   Long categoryId;
 

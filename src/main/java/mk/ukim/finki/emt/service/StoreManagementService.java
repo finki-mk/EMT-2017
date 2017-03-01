@@ -3,6 +3,7 @@ package mk.ukim.finki.emt.service;
 
 import mk.ukim.finki.emt.model.exceptions.CategoryInUseException;
 import mk.ukim.finki.emt.model.jpa.Book;
+import mk.ukim.finki.emt.model.jpa.Category;
 import mk.ukim.finki.emt.model.jpa.DeliveryPackage;
 
 /**
@@ -10,7 +11,7 @@ import mk.ukim.finki.emt.model.jpa.DeliveryPackage;
  */
 public interface StoreManagementService {
 
-  void createCategory(
+  Category createCategory(
     String name,
     Long parentId
   );
@@ -68,11 +69,11 @@ public interface StoreManagementService {
     Long cartId
   );
 
-  void markExpired(
+  void markInvoiceAsExpired(
     Long invoiceId
   );
 
-  DeliveryPackage markPayed(
+  DeliveryPackage markInvoiceAsPayed(
     Long invoiceId
   );
 

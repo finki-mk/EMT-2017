@@ -25,7 +25,7 @@ public interface StoreClientService {
 
   BookDetails getBookDetails(Long bookId);
 
-  void addToCart(Long cartId, Long bookId, int quantity);
+  CartItem addToCart(Long cartId, Long bookId, int quantity);
 
   void removeFromCart(Long cartId, Long bookId, int quantity);
 
@@ -48,7 +48,7 @@ public interface StoreClientService {
 
   void provideDeliveryAndContactInfoFromCustomerCard(
     Long checkoutId,
-    Long customerCardId
+    Long customerId
   );
 
   void provideCoupon(

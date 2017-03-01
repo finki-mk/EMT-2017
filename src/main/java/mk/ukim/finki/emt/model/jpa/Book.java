@@ -1,9 +1,6 @@
 package mk.ukim.finki.emt.model.jpa;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 
@@ -25,6 +22,6 @@ public class Book extends BaseEntity {
   @ManyToOne
   public Category category;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   public List<Author> authors;
 }

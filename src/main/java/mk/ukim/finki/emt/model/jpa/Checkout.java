@@ -1,7 +1,6 @@
 package mk.ukim.finki.emt.model.jpa;
 
 
-import com.sun.corba.se.pept.transport.ContactInfo;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;

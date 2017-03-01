@@ -2,6 +2,7 @@ package mk.ukim.finki.emt.service.impl;
 
 import mk.ukim.finki.emt.model.exceptions.CategoryInUseException;
 import mk.ukim.finki.emt.model.jpa.Book;
+import mk.ukim.finki.emt.model.jpa.Category;
 import mk.ukim.finki.emt.model.jpa.DeliveryPackage;
 import mk.ukim.finki.emt.service.StoreManagementService;
 
@@ -11,8 +12,8 @@ import mk.ukim.finki.emt.service.StoreManagementService;
 public class StoreManagementServiceImpl implements StoreManagementService {
 
   @Override
-  public void createCategory(String name, Long parentId) {
-
+  public Category createCategory(String name, Long parentId) {
+    return null;
   }
 
   @Override
@@ -66,12 +67,12 @@ public class StoreManagementServiceImpl implements StoreManagementService {
   }
 
   @Override
-  public void markExpired(Long invoiceId) {
+  public void markInvoiceAsExpired(Long invoiceId) {
 
   }
 
   @Override
-  public DeliveryPackage markPayed(Long invoiceId) {
+  public DeliveryPackage markInvoiceAsPayed(Long invoiceId) {
     return null;
   }
 
