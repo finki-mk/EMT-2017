@@ -7,7 +7,6 @@ import javax.persistence.Table;
 /**
  * @author Riste Stojanov
  */
-
 @Entity
 @Table(name = "contact_info")
 public class ContactInfo extends BaseEntity {

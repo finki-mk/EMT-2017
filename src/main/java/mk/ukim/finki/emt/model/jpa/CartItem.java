@@ -7,7 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by ristes on 2/23/17.
+ * @author Riste Stojanov
  */
 @Entity
 @Table(name = "cart_items")

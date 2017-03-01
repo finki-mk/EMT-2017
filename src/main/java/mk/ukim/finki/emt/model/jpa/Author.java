@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * Created by ristes on 2/23/17.
+ * @author Riste Stojanov
  */
 @Entity
 @Table(name = "authors")

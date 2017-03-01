@@ -1,6 +1,8 @@
 package mk.ukim.finki.emt.model.jpa;
 
 
+import mk.ukim.finki.emt.model.enums.UserType;
+
 import javax.persistence.*;
 
 /**

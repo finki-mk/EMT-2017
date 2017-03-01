@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 /**
- * Created by ristes on 2/23/17.
+ * @author Riste Stojanov
  */
 @MappedSuperclass
 public class BaseEntity {

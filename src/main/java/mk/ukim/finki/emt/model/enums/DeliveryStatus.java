@@ -1,7 +1,7 @@
 package mk.ukim.finki.emt.model.enums;
 
 /**
- * Created by ristes on 2/23/17.
+ * @author Riste Stojanov
  */
 public enum DeliveryStatus {
   /**
