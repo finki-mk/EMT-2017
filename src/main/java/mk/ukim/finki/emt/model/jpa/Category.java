@@ -20,4 +20,14 @@ public class Category extends BaseEntity {
 
   @ManyToOne
   public Category parent; // column parent_id
+
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder("Category{");
+    sb.append("id='").append(id).append('\'');
+    sb.append("name='").append(name).append('\'');
+    sb.append(", parent=").append(parent);
+    sb.append('}');
+    return sb.toString();
+  }
 }
