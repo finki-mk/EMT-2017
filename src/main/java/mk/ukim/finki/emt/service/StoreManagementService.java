@@ -3,6 +3,7 @@ package mk.ukim.finki.emt.service;
 
 import mk.ukim.finki.emt.model.exceptions.CategoryInUseException;
 import mk.ukim.finki.emt.model.jpa.Book;
+import mk.ukim.finki.emt.model.jpa.BookPicture;
 import mk.ukim.finki.emt.model.jpa.Category;
 import mk.ukim.finki.emt.model.jpa.DeliveryPackage;
 
@@ -10,6 +11,9 @@ import mk.ukim.finki.emt.model.jpa.DeliveryPackage;
  * @author Riste Stojanov
  */
 public interface StoreManagementService {
+
+
+  Category createTopLevelCategory(String name);
 
   Category createCategory(
     String name,
@@ -90,4 +94,5 @@ public interface StoreManagementService {
   );
 
 
+  BookPicture addBookPicture(Long bookId, byte[] bytes, String contentType);
 }

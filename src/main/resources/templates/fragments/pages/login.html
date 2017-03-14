@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<div xmlns:th="http://www.thymeleaf.org">
+  <div class="row">
+    <div class="col-md-4">
+      <form th:action="@{/doLogin}" method="POST">
+        <fieldset class="form-group">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" name="username" id="username"> </input>
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" name="password" id="password"></input>
+        </fieldset>
+        <div class="form-group row" style="margin-bottom: 10px;">
+          <div class="col-md-offset-10 col-md-2">
+            <input type="submit" value="Login" class="btn btn-primary"></input>
+          </div>
+          <div class="col-md-12" style="padding: 10px;">
+            <a href="/login/facebook" class="btn btn-primary" style="float: right;margin-left: 10px;">
+              <i class="fa fa-fw fa-facebook"></i>
+              Facebook Login
+            </a>
+            <a href="/login/github" class="btn btn-default" style="float: right;">
+              <i class="fa fa-fw fa-github"></i>
+              Github Login
+            </a>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+</div>

@@ -22,6 +22,8 @@ public class Book extends BaseEntity {
   @ManyToOne
   public Category category;
 
+  public Boolean promoted;
+
   @ManyToMany(fetch = FetchType.EAGER)
   public List<Author> authors;
 }

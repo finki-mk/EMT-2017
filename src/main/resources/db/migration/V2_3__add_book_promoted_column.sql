@@ -1,0 +1,1 @@
+ALTER TABLE store.books ADD COLUMN 'promoted' BIT ;

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+  <meta name="description" content=""></meta>
+  <meta name="author" content=""></meta>
+
+  <title>EMK Store</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet"></link>
+
+
+  <!-- Custom CSS -->
+  <link href="/css/sb-admin-2.css" rel="stylesheet"></link>
+
+
+  <!-- Custom Fonts -->
+  <link href="/css/font-awesome.css" rel="stylesheet" type="text/css"></link>
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+
+<body>
+
+<div id="wrapper">
+  <!-- Navigation -->
+  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Emt Store</a>
+    </div>
+    <!-- /.navbar-header -->
+
+    <div th:replace="fragments/top"></div>
+    <!-- /.navbar-top-links -->
+    <div th:replace="fragments/sidebar"></div>
+  </nav>
+
+
+  <div id="page-wrapper" style="padding: 20px;">
+
+    <div id="chatContainer">
+
+
+    </div>
+    <input id="chatText" type="text"></input>
+    <button id="sendText" value="Send">Send</button>
+
+    <div th:replace="fragments/page::${pageFragment!=null? pageFragment : 'products'}"></div>
+  </div>
+  <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/sb-admin-2.js"></script>
+
+<script src="/js/sockjs.js"></script>
+<script src="/js/stomp.js"></script>
+<script src="/js/chat.js"></script>
+
+</body>
+
+</html>

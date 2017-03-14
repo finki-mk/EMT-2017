@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<li class="dropdown" xmlns:th="http://www.thymeleaf.org">
+  <a th:if="${user==null}" href="/login">
+    <i class="fa fa-user fa-fw"></i>
+    Login
+  </a>
+  <a th:if="${user!=null}" class="dropdown-toggle" data-toggle="dropdown" href="#">
+    <i class="fa fa-user fa-fw"></i>
+    <span th:text="${user.username}"></span>
+    <i class="fa fa-caret-down"></i>
+  </a>
+  <ul th:if="${user!=null}" class="dropdown-menu dropdown-user">
+    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+    </li>
+    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <form id="logoutForm" th:action="@{/logout}" method="post">
+        <a href="javascript:{}"
+           onclick="document.getElementById('logoutForm').submit();return false;"><i
+          class="fa fa-sign-out fa-fw"></i> Logout</a>
+      </form>
+    </li>
+  </ul>
+  <!-- /.dropdown-user -->
+</li>

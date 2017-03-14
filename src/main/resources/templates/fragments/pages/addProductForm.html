@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+Create product:
+<form th:action="@{/admin/product}"
+      enctype="multipart/form-data"
+      method="POST"
+      xmlns:th="http://www.thymeleaf.org">
+  Name: <input type="text" name="name"> </input>
+  Description: <input type="text" name="description"> </input>
+  Category: <select name="categoryId">
+                <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+            </select>
+  Picture (png): <input type="file" name="picture"></input>
+  <input type="submit">Submit</input>
+</form>

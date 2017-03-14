@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<div xmlns:th="http://www.thymeleaf.org">
+  <h4 th:if="${exception!=null}" class="panel panel-danger" th:text="${exception}"></h4>
+
+  <h1>Products:</h1>
+
+  <div th:each="prod : ${products}" class="row">
+    <div class="col-md-4">
+      <img class="img-responsive" th:src="@{/product/{id}/picture(id=${prod.id})}"></img>
+    </div>
+    <div class="col-md-8">
+      <div th:text="${prod.name}"></div>
+      <div th:text="${prod.description}"></div>
+      <a th:href="@{/category/{categoryId}(categoryId=${prod.category.id}}" th:text="${prod.category.name}">
+      </a>
+    </div>
+    <hr/>
+  </div>
+  <hr/>
+</div>

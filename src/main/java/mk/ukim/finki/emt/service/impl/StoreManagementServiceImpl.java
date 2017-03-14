@@ -2,14 +2,22 @@ package mk.ukim.finki.emt.service.impl;
 
 import mk.ukim.finki.emt.model.exceptions.CategoryInUseException;
 import mk.ukim.finki.emt.model.jpa.Book;
+import mk.ukim.finki.emt.model.jpa.BookPicture;
 import mk.ukim.finki.emt.model.jpa.Category;
 import mk.ukim.finki.emt.model.jpa.DeliveryPackage;
 import mk.ukim.finki.emt.service.StoreManagementService;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Riste Stojanov
  */
+@Service
 public class StoreManagementServiceImpl implements StoreManagementService {
+
+  @Override
+  public Category createTopLevelCategory(String name) {
+    return null;
+  }
 
   @Override
   public Category createCategory(String name, Long parentId) {
@@ -89,5 +97,10 @@ public class StoreManagementServiceImpl implements StoreManagementService {
   @Override
   public void closeDeliveryWithoutConfirmation(Long deliveryId) {
 
+  }
+
+  @Override
+  public BookPicture addBookPicture(Long bookId, byte[] bytes, String contentType) {
+    return null;
   }
 }

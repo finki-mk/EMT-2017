@@ -1,10 +1,6 @@
 package mk.ukim.finki.emt.model.jpa;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import java.sql.Blob;
+import javax.persistence.*;
 
 /**
  * @author Riste Stojanov
@@ -19,13 +15,8 @@ public class BookDetails extends BaseEntity {
   @OneToOne
   public Book book;
 
-  public Blob data;
-
-  public String fileName;
-
-  public String contentType;
-
-  public Long size;
+  @Embedded
+  public FileEmbeddable downloadFile;
 
 
 }

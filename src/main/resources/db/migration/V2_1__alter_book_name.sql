@@ -1,0 +1,1 @@
+ALTER TABLE store.books MODIFY name VARCHAR(500);
