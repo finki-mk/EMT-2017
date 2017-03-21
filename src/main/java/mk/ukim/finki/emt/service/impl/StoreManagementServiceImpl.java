@@ -5,8 +5,13 @@ import mk.ukim.finki.emt.model.jpa.Book;
 import mk.ukim.finki.emt.model.jpa.BookPicture;
 import mk.ukim.finki.emt.model.jpa.Category;
 import mk.ukim.finki.emt.model.jpa.DeliveryPackage;
+import mk.ukim.finki.emt.service.BookServiceHelper;
+import mk.ukim.finki.emt.service.CategoryServiceHelper;
 import mk.ukim.finki.emt.service.StoreManagementService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.sql.SQLException;
 
 /**
  * @author Riste Stojanov
@@ -14,49 +19,55 @@ import org.springframework.stereotype.Service;
 @Service
 public class StoreManagementServiceImpl implements StoreManagementService {
 
+  @Autowired
+  private CategoryServiceHelper categoryServiceHelper;
+
+  @Autowired
+  private BookServiceHelper bookServiceHelper;
+
   @Override
   public Category createTopLevelCategory(String name) {
-    return null;
+    return categoryServiceHelper.createTopLevelCategory(name);
   }
 
   @Override
   public Category createCategory(String name, Long parentId) {
-    return null;
+    return categoryServiceHelper.createCategory(name, parentId);
   }
 
   @Override
-  public void updateCategoryName(Long id, String newName) {
-
+  public Category updateCategoryName(Long id, String newName) {
+    return categoryServiceHelper.updateCategoryName(id, newName);
   }
 
   @Override
-  public void changeCategoryParent(Long id, Long parentId) {
-
+  public Category changeCategoryParent(Long id, Long parentId) {
+    return categoryServiceHelper.changeCategoryParent(id, parentId);
   }
 
   @Override
   public void removeCategory(Long id) throws CategoryInUseException {
-
+    categoryServiceHelper.removeCategory(id);
   }
 
   @Override
   public Book createBook(String name, Long categoryId, String[] authors, String isbn, Double price) {
-    return null;
+    return bookServiceHelper.createBook(name, categoryId, authors, isbn, price);
   }
 
   @Override
   public Book updateBook(Long bookId, String name, String[] authors, String isbn) {
-    return null;
+    return bookServiceHelper.updateBook(bookId, name, authors, isbn);
   }
 
   @Override
   public Book updateBookPrice(Long bookId, Double price) {
-    return null;
+    return bookServiceHelper.updateBookPrice(bookId, price);
   }
 
   @Override
   public Book updateBookCategory(Long bookId, Long newCategoryId) {
-    return null;
+    return bookServiceHelper.updateBookCategory(bookId, newCategoryId);
   }
 
   @Override
@@ -100,7 +111,7 @@ public class StoreManagementServiceImpl implements StoreManagementService {
   }
 
   @Override
-  public BookPicture addBookPicture(Long bookId, byte[] bytes, String contentType) {
-    return null;
+  public BookPicture addBookPicture(Long bookId, byte[] bytes, String contentType) throws SQLException {
+    return bookServiceHelper.addBookPicture(bookId, bytes, contentType);
   }
 }

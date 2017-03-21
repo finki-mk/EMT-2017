@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 Create product:
-<form th:action="@{/admin/product}"
+<form th:action="@{/admin/book}"
       enctype="multipart/form-data"
       method="POST"
       xmlns:th="http://www.thymeleaf.org">
@@ -9,6 +9,9 @@ Create product:
   Category: <select name="categoryId">
                 <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
             </select>
+  ISBN: <input type="text" name="isbn"> </input>
+  Price: <input type="text" name="price"> </input>
+  Auhtors: <input type="text" name="authors"> </input>
   Picture (png): <input type="file" name="picture"></input>
   <input type="submit">Submit</input>
 </form>

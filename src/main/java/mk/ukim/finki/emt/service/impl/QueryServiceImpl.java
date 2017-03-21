@@ -1,9 +1,12 @@
 package mk.ukim.finki.emt.service.impl;
 
 import mk.ukim.finki.emt.model.jpa.Book;
+import mk.ukim.finki.emt.model.jpa.BookPicture;
 import mk.ukim.finki.emt.model.jpa.Category;
+import mk.ukim.finki.emt.persistence.BookPictureRepository;
 import mk.ukim.finki.emt.persistence.CategoryRepository;
 import mk.ukim.finki.emt.persistence.QueryRepository;
+import mk.ukim.finki.emt.persistence.impl.SearchRepository;
 import mk.ukim.finki.emt.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,13 +24,20 @@ public class QueryServiceImpl implements QueryService {
 
   CategoryRepository categoryRepository;
 
+  BookPictureRepository bookPictureRepository;
+
+  @Autowired
+  SearchRepository searchRepository;
+
   @Autowired
   public QueryServiceImpl(
     QueryRepository bookRepository,
-    CategoryRepository categoryRepository
+    CategoryRepository categoryRepository,
+    BookPictureRepository bookPictureRepository
   ) {
     this.queryRepository = bookRepository;
     this.categoryRepository = categoryRepository;
+    this.bookPictureRepository = bookPictureRepository;
   }
 
   @Override
@@ -44,5 +54,15 @@ public class QueryServiceImpl implements QueryService {
   @Override
   public List<Category> findTopLevelCategories() {
     return categoryRepository.findByParentIsNull();
+  }
+
+  @Override
+  public BookPicture getByBookId(Long bookId) {
+    return bookPictureRepository.findByBookId(bookId);
+  }
+
+  @Override
+  public List<Book> searchBook(String query) {
+    return searchRepository.searchPhrase(Book.class,query, "name","isbn", "category.name", "authors.nameAndLastName");
   }
 }

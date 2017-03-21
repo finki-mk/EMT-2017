@@ -1,13 +1,11 @@
 package mk.ukim.finki.emt.model.jpa;
 
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.search.annotations.*;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author Riste Stojanov
@@ -16,6 +14,9 @@ import javax.validation.constraints.NotNull;
 @Table(name = "categories")
 public class Category extends BaseEntity {
 
+  @Field(index = Index.YES, store = Store.NO, analyze = Analyze.YES)
+  @Analyzer(definition = "emtAnalyser")
+  @Boost(1f)
   public String name;
 
   @ManyToOne

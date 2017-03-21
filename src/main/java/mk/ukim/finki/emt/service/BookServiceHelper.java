@@ -2,18 +2,15 @@ package mk.ukim.finki.emt.service;
 
 import mk.ukim.finki.emt.model.jpa.Book;
 import mk.ukim.finki.emt.model.jpa.BookDetails;
-import mk.ukim.finki.emt.model.jpa.Category;
+import mk.ukim.finki.emt.model.jpa.BookPicture;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
  * @author Riste Stojanov
  */
 public interface BookServiceHelper {
-
-  List<Category> getTopLevelCategories();
-
-  List<Category> getSubCategories(Long categoryId);
 
   List<Book> getBooksInCategory(Long categoryId);
 
@@ -43,5 +40,11 @@ public interface BookServiceHelper {
     Long bookId,
     Long newCategoryId
   );
+
+
+  BookPicture addBookPicture(
+    Long bookId,
+    byte[] bytes,
+    String contentType) throws SQLException;
 
 }

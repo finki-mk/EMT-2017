@@ -15,8 +15,18 @@ import java.util.List;
 @Component
 public class CategoryFilter implements Filter {
 
+
+    private QueryService service;
+
     @Autowired
-    QueryService service;
+    public CategoryFilter(QueryService service) {
+        this.service = service;
+    }
+
+
+
+
+
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -24,7 +34,11 @@ public class CategoryFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(
+      ServletRequest servletRequest,
+      ServletResponse servletResponse,
+      FilterChain filterChain
+    ) throws IOException, ServletException {
         List<Category> categories = service.findTopLevelCategories();
         servletRequest.setAttribute("categories", categories);
         filterChain.doFilter(servletRequest, servletResponse);

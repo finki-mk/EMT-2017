@@ -15,5 +15,5 @@ public class FileEmbeddable {
 
   public String contentType;
 
-  public Long size;
+  public int size;
 }

@@ -37,19 +37,28 @@ public class AdminController {
     return "index";
   }
 
-  @RequestMapping(value = {"/admin/product"}, method = RequestMethod.GET)
+  @RequestMapping(value = {"/admin/book"}, method = RequestMethod.GET)
   public String addProduct(Model model) {
-    model.addAttribute("pageFragment", "addProduct");
+    model.addAttribute("pageFragment", "addBook");
     return "index";
   }
 
-  @RequestMapping(value = {"/admin/product"}, method = RequestMethod.POST)
+
+  @RequestMapping(value = {"/admin/category"}, method = RequestMethod.POST)
+  public String createCategory(Model model,
+                               @RequestParam String categoryName) {
+    Category category = storeManagementService.createTopLevelCategory(categoryName);
+    return "redirect:/admin/category";
+  }
+
+
+  @RequestMapping(value = {"/admin/book"}, method = RequestMethod.POST)
   public String createProduct(HttpServletRequest request,
                               HttpServletResponse resp,
                               Model model,
                               @RequestParam String name,
                               @RequestParam Long categoryId,
-                              @RequestParam String[] authors,
+                              @RequestParam String authors,
                               @RequestParam String isbn,
                               @RequestParam Double price,
                               @RequestParam String description,
@@ -58,32 +67,15 @@ public class AdminController {
     Book product = storeManagementService.createBook(
       name,
       categoryId,
-      authors,
+      authors.split(";"),
       isbn,
       price
     );
     storeManagementService.addBookPicture(product.id, picture.getBytes(), picture.getContentType());
+
     model.addAttribute("product", product);
     return "index";
   }
 
-
-  @RequestMapping(value = {"/admin/category"}, method = RequestMethod.POST)
-  public String createCategory(HttpServletRequest request,
-                               HttpServletResponse resp,
-                               Model model,
-                               @RequestParam String categoryName) {
-    Category category = storeManagementService.createTopLevelCategory(categoryName);
-
-
-
-//    List<Category> categories = service.findAllCategories();
-//    model.addAttribute("category", category);
-//    model.addAttribute("products", products);
-//    // because there is a new category, so we have to override the category
-//    // request param from the filter
-//    model.addAttribute("categories", categories);
-    return "redirect:/admin/category";
-  }
 
 }
