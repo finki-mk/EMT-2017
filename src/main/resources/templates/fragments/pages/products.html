@@ -14,6 +14,11 @@
       <a th:href="@{/category/{categoryId}(categoryId=${prod.category.id})}"
          th:text="${prod.category.name}">
       </a>
+      <div>
+        <a th:each="a : ${prod.authors}" th:href="@{/books/by_author/{authorId}(authorId=${a.id})}"
+           th:text="${a.nameAndLastName}">
+        </a>
+      </div>
     </div>
     <hr/>
   </div>

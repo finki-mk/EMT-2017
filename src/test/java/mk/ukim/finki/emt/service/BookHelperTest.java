@@ -5,7 +5,7 @@ import mk.ukim.finki.emt.model.jpa.Book;
 import mk.ukim.finki.emt.model.jpa.Category;
 import mk.ukim.finki.emt.persistence.BookRepository;
 import mk.ukim.finki.emt.persistence.CategoryRepository;
-import mk.ukim.finki.emt.persistence.impl.SearchRepository;
+import mk.ukim.finki.emt.persistence.SearchRepository;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -2,21 +2,22 @@ package mk.ukim.finki.emt.web;
 
 import mk.ukim.finki.emt.model.jpa.Book;
 import mk.ukim.finki.emt.model.jpa.Category;
+import mk.ukim.finki.emt.persistence.AuthorsRepository;
 import mk.ukim.finki.emt.service.StoreManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * @author Riste Stojanov
@@ -27,12 +28,19 @@ public class AdminController {
   StoreManagementService storeManagementService;
 
   @Autowired
+  AuthorsRepository authorsRepository;
+
+  @Autowired
   public AdminController(StoreManagementService storeManagementService) {
     this.storeManagementService = storeManagementService;
   }
 
   @RequestMapping(value = {"/admin/category"}, method = RequestMethod.GET)
   public String addCategory(Model model) {
+    Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+    if(authentication.isAuthenticated()) {
+      UserDetails details= (UserDetails) authentication.getPrincipal();
+    }
     model.addAttribute("pageFragment", "addCategory");
     return "index";
   }
@@ -40,6 +48,7 @@ public class AdminController {
   @RequestMapping(value = {"/admin/book"}, method = RequestMethod.GET)
   public String addProduct(Model model) {
     model.addAttribute("pageFragment", "addBook");
+    model.addAttribute("authors", authorsRepository.findAll());
     return "index";
   }
 
@@ -53,12 +62,11 @@ public class AdminController {
 
 
   @RequestMapping(value = {"/admin/book"}, method = RequestMethod.POST)
-  public String createProduct(HttpServletRequest request,
-                              HttpServletResponse resp,
-                              Model model,
+  public String createProduct(Model model,
                               @RequestParam String name,
                               @RequestParam Long categoryId,
                               @RequestParam String authors,
+                              @RequestParam Long[] authorIds,
                               @RequestParam String isbn,
                               @RequestParam Double price,
                               @RequestParam String description,
@@ -68,6 +76,7 @@ public class AdminController {
       name,
       categoryId,
       authors.split(";"),
+      authorIds,
       isbn,
       price
     );

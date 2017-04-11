@@ -38,7 +38,8 @@ public interface StoreManagementService {
   Book createBook(
     String name,
     Long categoryId,
-    String[] authors,
+    String[] newAuthors,
+    Long[] existingAuthors,
     String isbn,
     Double price
   );

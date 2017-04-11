@@ -1,12 +1,12 @@
 package mk.ukim.finki.emt.persistence.impl;
 
+import mk.ukim.finki.emt.persistence.SearchRepository;
 import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.BooleanJunction;
 import org.hibernate.search.query.dsl.PhraseMatchingContext;
 import org.hibernate.search.query.dsl.QueryBuilder;
-import org.hibernate.search.query.dsl.TermMatchingContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Repository
 @Transactional(readOnly = true)
-public class SearchRepository {
+public class SearchRepositoryImpl implements SearchRepository {
 
   // Spring will inject here the entity manager object
   @PersistenceContext
@@ -33,6 +33,7 @@ public class SearchRepository {
    *
    * @param text The query text.
    */
+  @Override
   public <T> List<T> searchKeyword(Class<T> entityClass, String text, String... fields) {
 
     // get the full text entity manager
@@ -61,6 +62,7 @@ public class SearchRepository {
     return results;
   }
 
+  @Override
   public <T> List<T> searchPhrase(Class<T> entityClass, String text, String... fields) {
     // get the full text entity manager
     FullTextEntityManager fullTextEntityManager =
@@ -76,27 +78,26 @@ public class SearchRepository {
     if (text.contains(" ")) {
       String[] tokens = text.split(" ");
 
-      for (int i = 0; i < tokens.length - 1; i++) {
+      for (int i = 0; i < tokens.length; i++) {
         try {
-          bool.should(qb.keyword().onFields(fields).matching(tokens[i]).createQuery()).boostedTo(.5f);
+          bool.should(
+            qb.keyword()
+              .onFields(fields)
+              .matching(tokens[i])
+              .createQuery()
+          ).boostedTo(.7f);
+          searchKeywordByWildcardOrFuzzy(tokens[i], bool, qb, fields);
         } catch (Exception e) {
           e.printStackTrace();
         }
       }
-      bool.should(getWildcardMultipleFiledQuery(qb, fields).matching(tokens[tokens.length - 1] + "*").createQuery()).boostedTo(.3f);
+
 
       PhraseMatchingContext phraseQuery = getMultipleFiledQuery(qb, fields);
       bool.should(phraseQuery.sentence(text).createQuery()).boostedTo(3f);
       query = bool.createQuery();
     } else {
-      bool.should(getWildcardMultipleFiledQuery(qb, fields)
-        .matching(text.toLowerCase() + "*").createQuery()).boostedTo(2f);
-      bool.should(
-        qb.keyword().fuzzy().
-          withEditDistanceUpTo(1)
-          .onFields(fields)
-          .matching(text)
-          .createQuery());
+      searchKeywordByWildcardOrFuzzy(text, bool, qb, fields);
       query = bool.createQuery();
     }
 
@@ -109,6 +110,25 @@ public class SearchRepository {
     return results;
   }
 
+  private void searchKeywordByWildcardOrFuzzy(String term, BooleanJunction bool, QueryBuilder qb, String... fields) {
+    bool.should(
+      qb.keyword()
+        .wildcard()
+        .onFields(fields)
+        .matching(term.toLowerCase() + "*")
+        .createQuery()
+    ).boostedTo(0.5f);
+
+    bool.should(
+      qb.keyword()
+        .fuzzy()
+        .withEditDistanceUpTo(1)
+        .onFields(fields)
+        .matching(term)
+        .createQuery()
+    ).boostedTo(0.3f);
+  }
+
   public PhraseMatchingContext getMultipleFiledQuery(QueryBuilder qb, String... fields) {
     PhraseMatchingContext phraseQuery = qb.phrase().onField(fields[0]);
     for (int i = 1; i < fields.length; i++) {
@@ -117,11 +137,4 @@ public class SearchRepository {
     return phraseQuery;
   }
 
-  public TermMatchingContext getWildcardMultipleFiledQuery(QueryBuilder qb, String... fields) {
-    TermMatchingContext phraseQuery = qb.keyword().wildcard().onField(fields[0]);
-    for (int i = 1; i < fields.length; i++) {
-      phraseQuery = phraseQuery.andField(fields[i]);
-    }
-    return phraseQuery;
-  }
 }

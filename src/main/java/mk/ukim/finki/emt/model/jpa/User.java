@@ -1,6 +1,7 @@
 package mk.ukim.finki.emt.model.jpa;
 
 
+import mk.ukim.finki.emt.model.enums.Provider;
 import mk.ukim.finki.emt.model.enums.UserType;
 
 import javax.persistence.*;
@@ -20,6 +21,9 @@ public class User extends BaseEntity {
 
   @Enumerated(EnumType.STRING)
   public UserType type;
+
+  @Enumerated(EnumType.STRING)
+  public Provider provider;
 
   @OneToOne
   public ContactInfo contactInfo;

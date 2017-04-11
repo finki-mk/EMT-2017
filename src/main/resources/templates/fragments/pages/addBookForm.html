@@ -4,14 +4,17 @@ Create product:
       enctype="multipart/form-data"
       method="POST"
       xmlns:th="http://www.thymeleaf.org">
-  Name: <input type="text" name="name"> </input>
-  Description: <input type="text" name="description"> </input>
+  Name: <input type="text" name="name"> </input> <br/>
+  Description: <input type="text" name="description"> </input><br/>
   Category: <select name="categoryId">
                 <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
-            </select>
-  ISBN: <input type="text" name="isbn"> </input>
-  Price: <input type="text" name="price"> </input>
-  Auhtors: <input type="text" name="authors"> </input>
-  Picture (png): <input type="file" name="picture"></input>
-  <input type="submit">Submit</input>
+            </select><br/>
+  ISBN: <input type="text" name="isbn"> </input><br/>
+  Price: <input type="text" name="price"> </input><br/>
+  Un-existing Authors: <input type="text" name="authors"> </input><br/>
+  Authors:  <select multiple="true" name="authorIds">
+    <option th:each="a : ${authors}" th:value="${a.id}" th:text="${a.nameAndLastName}"></option>
+            </select><br/>
+  Picture (png): <input type="file" name="picture"></input><br/>
+  <input type="submit"></input>
 </form>

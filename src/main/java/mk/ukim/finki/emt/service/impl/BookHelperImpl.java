@@ -51,16 +51,18 @@ public class BookHelperImpl implements BookServiceHelper {
   }
 
   @Override
-  public Book createBook(String name, Long categoryId, String[] authors, String isbn, Double price) {
-    Book book = new Book();
-    book.name = name;
-    book.isbn = isbn;
-    book.price = price;
-    book.category = categoryRepository.findOne(categoryId);
-    for (String authorName : authors) {
-      Author author = getOrCreateAuthor(authorName);
-      book.authors.add(author);
+  public Book createBook(String name, Long categoryId, String[] authors, Long[] existingAuthors, String isbn, Double price) {
+    Book book = createBookWithNewAuthors(name, categoryId, authors, isbn, price);
+    for (Long authorId : existingAuthors) {
+      book.authors.add(authorsRepository.findOne(authorId));
     }
+    return bookRepository.save(book);
+  }
+
+
+  @Override
+  public Book createBook(String name, Long categoryId, String[] authors, String isbn, Double price) {
+    Book book = createBookWithNewAuthors(name, categoryId, authors, isbn, price);
     return bookRepository.save(book);
   }
 
@@ -94,13 +96,24 @@ public class BookHelperImpl implements BookServiceHelper {
   }
 
 
-  private Author getOrCreateAuthor(String authorName) {
-    Author author = authorsRepository.findByNameAndLastName(authorName);
-    if (author == null) {
-      author = new Author();
-      author.nameAndLastName = authorName;
-      author = authorsRepository.save(author);
-    }
+  private Author createAuthor(String authorName) {
+    Author author = new Author();
+    author.nameAndLastName = authorName;
+    author = authorsRepository.save(author);
     return author;
+  }
+
+
+  private Book createBookWithNewAuthors(String name, Long categoryId, String[] authors, String isbn, Double price) {
+    Book book = new Book();
+    book.name = name;
+    book.isbn = isbn;
+    book.price = price;
+    book.category = categoryRepository.findOne(categoryId);
+    for (String authorName : authors) {
+      Author author = createAuthor(authorName);
+      book.authors.add(author);
+    }
+    return book;
   }
 }

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
@@ -20,13 +21,13 @@ import java.util.List;
  * @author Riste Stojanov
  */
 @Controller
-public class BasicController {
+public class PublicAccessController {
 
 
   QueryService queryService;
 
   @Autowired
-  public BasicController(QueryService queryService) {
+  public PublicAccessController(QueryService queryService) {
     this.queryService = queryService;
   }
 
@@ -34,6 +35,17 @@ public class BasicController {
   public String index(Model model) {
     model.addAttribute("products", queryService.getPromotedBooks(1, 20));
 
+    return "index";
+  }
+
+  @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+  public String login(Model model, HttpSession session, @RequestParam(required = false) String error) {
+    if (session.getAttribute("user") != null) {
+      return "redirect:/";
+    }
+    model.addAttribute("error", error);
+
+    model.addAttribute("pageFragment", "login");
     return "index";
   }
 
@@ -53,13 +65,13 @@ public class BasicController {
 
   @RequestMapping(value = {"/search"}, method = RequestMethod.GET)
   public String search(
-    @PathVariable Long categoryId,
     @RequestParam String query,
     Model model
   ) {
-    List<Book> page = queryService.searchBook(query);
+    List<Book> books = queryService.searchBook(query);
 
-    model.addAttribute("products", page);
+    model.addAttribute("products", books);
+    model.addAttribute("query", query);
 
     return "index";
   }
@@ -68,14 +80,18 @@ public class BasicController {
   @ResponseBody
   public void index(@PathVariable Long id, HttpServletResponse response) throws IOException, SQLException {
     OutputStream out = response.getOutputStream();
+
     BookPicture bookPicture = queryService.getByBookId(id);
 
     String contentDisposition = String.format("inline;filename=\"%s\"",
       bookPicture.picture.fileName + ".png?productId=" + id);
+
     response.setHeader("Content-Disposition", contentDisposition);
-    response.setContentType("image/png");
-    response.setContentLength((int) bookPicture.picture.size);
+    response.setContentType(bookPicture.picture.contentType);
+    response.setContentLength(bookPicture.picture.size);
+
     IOUtils.copy(bookPicture.picture.data.getBinaryStream(), out);
+
     out.flush();
     out.close();
   }

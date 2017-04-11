@@ -1,9 +1,9 @@
 package mk.ukim.finki.emt.model.enums;
 
 /**
- * @author Riste Stojanov
+ * Created by ristes on 3/9/16.
  */
-public enum UserType {
+public enum Role {
   ROLE_ADMIN,
   ROLE_SELLER,
   ROLE_CUSTOMER

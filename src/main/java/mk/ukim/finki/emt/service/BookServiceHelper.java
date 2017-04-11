@@ -20,6 +20,15 @@ public interface BookServiceHelper {
     String name,
     Long categoryId,
     String[] authors,
+    Long[] existingAuthors, String isbn,
+    Double price
+  );
+
+
+  Book createBook(
+    String name,
+    Long categoryId,
+    String[] authors,
     String isbn,
     Double price
   );
