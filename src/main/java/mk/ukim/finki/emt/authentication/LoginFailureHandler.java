@@ -36,9 +36,8 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
      */
     if (user != null && user.provider != null && user.provider != Provider.LOCAL) {
       httpServletResponse.sendRedirect(user.provider.getLoginUrl());
+    } else {
+       httpServletResponse.sendRedirect("/login?error=user not found!");
     }
-
-
-    httpServletResponse.sendRedirect("/login?error=user not found!");
   }
 }

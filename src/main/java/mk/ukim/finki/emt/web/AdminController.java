@@ -31,7 +31,7 @@ public class AdminController {
   AuthorsRepository authorsRepository;
 
   @Autowired
-  public AdminController(StoreManagementService storeManagementService) {
+  public AdminController(StoreManagementService staoreManagementService) {
     this.storeManagementService = storeManagementService;
   }
 
