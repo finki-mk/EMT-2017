@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -48,6 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
   @Autowired
   OAuth2ClientContext oauth2ClientContext;
+
+  @Autowired
+  ApplicationEventPublisher publisher;
+
   @Autowired
   private UserDetailsService userDetailsService;
 
@@ -100,7 +105,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   public AuthenticationSuccessHandler localSuccessHandler() {
     return new LoginSuccessHandler(
       Provider.LOCAL,
-      UserType.ROLE_CUSTOMER
+      UserType.ROLE_CUSTOMER,
+      publisher
     );
   }
 
@@ -125,7 +131,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   LoginSuccessHandler githubSuccessHandler() {
-    return new LoginSuccessHandler(Provider.GITHUB, UserType.ROLE_CUSTOMER);
+    return new LoginSuccessHandler(Provider.GITHUB, UserType.ROLE_CUSTOMER, publisher);
   }
 
 
@@ -138,7 +144,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   LoginSuccessHandler googleSuccessHandler() {
-    return new LoginSuccessHandler(Provider.GOOGLE, UserType.ROLE_CUSTOMER);
+    return new LoginSuccessHandler(Provider.GOOGLE, UserType.ROLE_CUSTOMER, publisher);
   }
 
 
@@ -151,7 +157,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   LoginSuccessHandler facebookSuccessHandler() {
-    return new LoginSuccessHandler(Provider.FACEBOOK, UserType.ROLE_CUSTOMER);
+    return new LoginSuccessHandler(Provider.FACEBOOK, UserType.ROLE_CUSTOMER, publisher);
   }
 
 

@@ -1,10 +1,12 @@
 package mk.ukim.finki.emt.authentication;
 
+import mk.ukim.finki.emt.events.UserRegisteredEvent;
 import mk.ukim.finki.emt.model.enums.Provider;
 import mk.ukim.finki.emt.model.enums.UserType;
 import mk.ukim.finki.emt.model.jpa.User;
 import mk.ukim.finki.emt.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
@@ -19,17 +21,18 @@ import java.io.IOException;
  */
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
+  ApplicationEventPublisher publisher;
   private Provider provider;
   private UserType defaultUserType;
-
   @Autowired
   private UserRepository userRepository;
 
   private User user;
 
-  public LoginSuccessHandler(Provider provider, UserType defaultUserType) {
+  public LoginSuccessHandler(Provider provider, UserType defaultUserType, ApplicationEventPublisher publisher) {
     this.provider = provider;
     this.defaultUserType = defaultUserType;
+    this.publisher = publisher;
   }
 
   @Override
@@ -56,12 +59,13 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 
   private User createUserFromProvider(Authentication authentication) {
 
-
     user = new User();
     user.username = authentication.getName();
+    user.email = user.username + "@finki.ukim.mk";
     user.type = defaultUserType;
     user.provider = provider;
     userRepository.save(user);
+    publisher.publishEvent(new UserRegisteredEvent(user));
     return user;
   }
 }
