@@ -8,8 +8,11 @@
     <i class="fa fa-user fa-fw"></i>
     <span th:text="${user.username}"></span>
     <i class="fa fa-caret-down"></i>
+
   </a>
   <ul th:if="${user!=null}" class="dropdown-menu dropdown-user">
+
+    <input type="hidden" th:value="${user.username}" id="username"/>
     <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
     </li>
     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>

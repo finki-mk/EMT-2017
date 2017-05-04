@@ -9,6 +9,7 @@ import mk.ukim.finki.emt.service.BookServiceHelper;
 import mk.ukim.finki.emt.service.CategoryServiceHelper;
 import mk.ukim.finki.emt.service.StoreManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
  * @author Riste Stojanov
  */
 @Service
+@Secured(value = "ROLE_ADMIN")
 public class StoreManagementServiceImpl implements StoreManagementService {
 
   @Autowired

@@ -1,20 +1,23 @@
-
 function onMessage(jsonData) {
   var chatContainer = $("#chatContainer");
-  chatContainer.append("<div>"+jsonData.user + ": "+ jsonData.message + "("+jsonData.time+")</div>")
+  chatContainer.append("<div>" + jsonData.user + ": " + jsonData.message + "(" + jsonData.time + ")</div>")
   $("#chatText").val("");
 }
 
+var user = {};
+
 $(document).ready(function () {
   var chatText = $("#chatText");
-  var btn=$("#sendText");
+  var btn = $("#sendText");
+  user.username = $("#username").val();
+  console.log(user);
   btn.click(function () {
-    $.post("/send123", {
-      user: "test",
+    var username = user.username || "guest";
+    $.post("/send", {
+      user: username,
       message: chatText.val()
     });
   });
-
 
 
 });
@@ -42,14 +45,16 @@ function subscribe(topic_id) {
   if (subscriptions[topic_id])
     return;
 
-  subscriptions[topic_id] = socket.stomp.subscribe(topic_id, function (data) {
+  subscriptions[topic_id] = socket.stomp.subscribe(topic_id, onStompMessage);
+
+  function onStompMessage(data) {
     console.log(data);
     var jsonData = data.body.trim();
     if (jsonData.indexOf('{') == 0 || jsonData.indexOf('[') == 0) {
       jsonData = JSON.parse(data.body);
     }
     onMessage(jsonData);
-  });
+  }
 }
 
 var initialize = function () {
@@ -61,9 +66,14 @@ var initialize = function () {
 
   });
 
-  socket.client.onopen=function(data){
-    console.log(data)
+  socket.client.onopen = function (data) {
+    console.log(data);
     subscribe("/room/emt");
+    socket.stomp.subscribe("/room/notification", function (data) {
+      console.log(data);
+      var notification = data.body.trim();
+      alert(notification);
+    });
   };
 
   socket.client.onclose = function () {

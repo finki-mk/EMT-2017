@@ -1,37 +1,51 @@
 <!DOCTYPE html>
 <div class="navbar-default sidebar" role="navigation" xmlns:th="http://www.thymeleaf.org">
-  <div class="sidebar-nav navbar-collapse">
-    <ul class="nav" id="side-menu">
-      <li class="sidebar-search">
-        <form method="get" th:action="@{/search}">
-          <div class="input-group custom-search-form">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="sidebar-search">
+                <form method="get" th:action="@{/search}">
+                    <div class="input-group custom-search-form">
 
-            <input type="text"
-                   name="query"
-                   class="form-control"
-                   th:value="${query}"
-                   placeholder="Search..."></input>
-            <span class="input-group-btn">
+                        <input type="text"
+                               name="query"
+                               class="form-control"
+                               th:value="${query}"
+                               placeholder="Search..."></input>
+                        <span class="input-group-btn">
               <button class="btn btn-default" type="submit">
                 <i class="fa fa-search"></i>
               </button>
             </span>
 
-          </div>
-        </form>
-        <!-- /input-group -->
-      </li>
-      <li>
-        <a href="/admin/category">Add category</a>
-      </li>
-      <li>
-        <a href="/admin/book">Add producty</a>
-      </li>
-      <li class="split-pane-divider"></li>
-      <li th:each="c : ${categories}">
-        <a th:href="@{/category/{categoryId}(categoryId=${c.id})}" th:text="${c.name}"></a>
-      </li>
-    </ul>
-  </div>
-  <!-- /.sidebar-collapse -->
+                    </div>
+                </form>
+                <!-- /input-group -->
+            </li>
+            <li>
+                <a href="/admin/category">Add category</a>
+            </li>
+            <li>
+                <a href="/admin/book">Add producty</a>
+            </li>
+            <li class="split-pane-divider"></li>
+            <li th:each="c : ${categories}">
+                <a th:href="@{/category/{categoryId}(categoryId=${c.id})}" th:text="${c.name}"></a>
+            </li>
+        </ul>
+        <div class="chat" style="position: absolute;bottom: 0px;">
+            <div id="chatContainer">
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <input th:type="text" class="form-control" id="chatText"/>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-primary btn-xs" id="sendText">
+                        <i class="fa fa-fw fa-send"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
 </div>
